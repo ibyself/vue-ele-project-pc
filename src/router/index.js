@@ -80,6 +80,20 @@ export const constantRoutes = [
         name: 'authlist',
         component: () => import('@/views/user/auth'),
         meta: { title: '权限管理', icon: 'user' }
+      },
+      {
+        path: 'editUser',
+        name: 'editUser',
+        component: () => import('@/views/user/editUser'),
+        meta: { title: '编辑信息', icon: 'user' },
+        hidden:true
+      },
+      {
+        path: 'addUser',
+        name: 'addUser',
+        component: () => import('@/views/user/addUser'),
+        meta: { title: '添加用户', icon: 'user' },
+        hidden:true
       }
     ]
   },
