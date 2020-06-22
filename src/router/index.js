@@ -98,6 +98,52 @@ export const constantRoutes = [
     ]
   },
   {
+    path:'/role',
+    component:Layout,
+    name:'role',
+    meta:{title:'角色管理',icon:'user'},
+    children:[
+      {
+        path:'addRole',
+        name:'addRole',
+        component:()=>import('@/views/role/addRole'),
+        meta:{title:'添加角色',icon:"user"},
+        hidden:true
+      },
+      {
+        path:'editRole',
+        name:'editRole',
+        component:()=>import('@/views/role/editRole'),
+        meta:{title:'编辑角色',icon:"user"},
+        hidden:true
+      }
+    ],
+    hidden:true
+  },
+  {
+    path:'/rule',
+    component:Layout,
+    name:'rule',
+    meta:{title:'权限管理',icon:'user'},
+    children:[
+      {
+        path:'addRule',
+        name:'addRule',
+        component:()=>import('@/views/rule/addRule'),
+        meta:{title:'添加权限',icon:"user"},
+        hidden:true
+      },
+      {
+        path:'editRule',
+        name:'editRule',
+        component:()=>import('@/views/rule/editRule'),
+        meta:{title:'编辑权限',icon:"user"},
+        hidden:true
+      }
+    ],
+    hidden:true
+  },
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
@@ -118,7 +164,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/form',
     component: Layout,

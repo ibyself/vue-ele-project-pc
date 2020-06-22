@@ -31,7 +31,7 @@
           {{ scope.row.mobile }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
+      <el-table-column class-name="status-col" label="状态" width="110" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status==1?"正常":"禁用" }}</el-tag>
         </template>
@@ -72,7 +72,8 @@ export default {
     return {
       list: null,
       listLoading: true,
-      total:0
+      total:0,
+      page:1
     }
   },
   created() {
@@ -81,7 +82,7 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getUserList().then(response => {
+      getUserList({page:this.page}).then(response => {
         this.list = response.userlist
         this.total=response.total
         this.listLoading = false
@@ -107,6 +108,7 @@ export default {
           })
     },
     getPageUsers(page){
+        this.page=page
         this.listLoading=true
         getUserList({page:page}).then(response=>{
             this.list=response.userlist

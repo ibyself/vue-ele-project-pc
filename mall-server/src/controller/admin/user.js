@@ -52,7 +52,7 @@ module.exports = class extends Base {
           role_id:user.role_id
         })
       }else{
-        await this.model('auth_user.role').where({user_id:user.id}).add({
+        await this.model('auth_user_role').where({user_id:user.id}).add({
           role_id:user.role_id,user_id:user.id
         })
       }
@@ -67,7 +67,7 @@ module.exports = class extends Base {
           role_id:user.role_id
         })
       }else{
-        await this.model('auth_user.role').where({user_id:user.id}).add({
+        await this.model('auth_user_role').where({user_id:user.id}).add({
           role_id:user.role_id,user_id:user.id
         })
       }
