@@ -19,11 +19,31 @@ router.beforeEach(async(to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken()
-
-  if (hasToken) {
+  
+  if (hasToken!=='undefined'){
     next()
     NProgress.done()
-    await store.dispatch('user/getInfo')
+    let {userInfo,ruleList} = await store.dispatch('user/getInfo')
+    let rule_idsArr=userInfo.rule_ids.split(',')
+    let ruleObj={}
+    ruleList.forEach((item,index)=>{
+      ruleObj[item.name]=item.id
+    })
+    if(ruleObj[to.path]){
+      if(rule_idsArr.indexOf(String(ruleObj[to.path]))!=-1&&ruleObj[to.path]!=undefined){
+        next()
+      }else{
+        Message({
+          message:'你未获取权限',
+          type:'error',
+          duration:2*1000
+        })
+        next('/admin/dashboard')
+      }
+    }else{
+      next()
+    }
+
   } else {
     /* has no token*/
 

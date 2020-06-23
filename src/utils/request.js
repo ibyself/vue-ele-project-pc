@@ -69,6 +69,7 @@ service.interceptors.response.use(
           type: 'error',
           duration: 2 * 1000
         })
+        router.push('/login')
       }
       return res
     }

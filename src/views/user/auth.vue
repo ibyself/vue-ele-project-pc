@@ -43,7 +43,7 @@
         <el-pagination
         background
         layout="prev, pager, next"
-        @current-change="getPageUsers"
+        @current-change="getPageRules"
         :total="total">
         </el-pagination>
     </div>
@@ -103,7 +103,7 @@ export default {
             this.fetchData()
           })
     },
-    getPageUsers(page){
+    getPageRules(page){
         this.page=page
         this.listLoading=true
         ruleList({page:page}).then(response=>{

@@ -77,7 +77,7 @@ export default {
         this.rulelist = response.rulelist
         this.total=response.total
         this.rulelist.forEach((item,index)=>{
-          item.isAuth=(ruleArr.indexOf(String(item.id)!=-1))
+          item.isAuth=(ruleArr.indexOf(String(item.id))!=-1)
         })
         this.listLoading = false
       })

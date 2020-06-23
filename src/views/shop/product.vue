@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="addUser-wrap">
-        <el-button @click="addRole()" type="primary" icon="el-icon-edit">添加角色</el-button>
+        <el-button @click="add()" type="primary" icon="el-icon-edit">添加商品</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -16,22 +16,33 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="角色名称" align="center">
+      <el-table-column label="商品名称" width="200" align="center">
         <template slot-scope="scope">
-          {{ scope.row.desc }}
+          {{ scope.row.title }}
         </template>
       </el-table-column>
-      <el-table-column label="权限规则编号" align="center">
+      <el-table-column label="产品图片" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.rule_ids }}</span>
+          <el-image v-if="scope.row.imgs"
+            style="width: 100px; height: 100px"
+            :src="base+'static/upload/'+JSON.parse(scope.row.imgs)[0].filename"
+            fit="cover">
+          </el-image>
+          <el-image
+            v-else
+            style="width: 100px; height: 100px"
+            :src="require('@/assets/images/goods.png')"
+            fit="cover">
+          </el-image>
         </template>
       </el-table-column>
       
-      <el-table-column class-name="status-col" label="状态" width="110" align="center">
+      <el-table-column label="产品类别" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status==1?"正常":"禁用" }}</el-tag>
+          {{ scope.row.category }}
         </template>
       </el-table-column>
+
       <el-table-column align="center" prop="created_at" label="操作" width="200">
         <template slot-scope="scope">
            <el-button @click="edit(scope.row)" type="primary" icon="el-icon-edit" circle></el-button>
@@ -43,7 +54,7 @@
         <el-pagination
         background
         layout="prev, pager, next"
-        @current-change="getPageRoles"
+        @current-change="getPageProduct"
         :total="total">
         </el-pagination>
     </div>
@@ -51,25 +62,17 @@
 </template>
 
 <script>
-import { roleList ,delRole} from '@/api/admin'
-
+import { productList ,delProduct} from '@/api/shop'
+const base = process.env.VUE_APP_BASE_API;
 export default {
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        '1': 'success',
-        '0': 'gray',
-        '-1': 'danger'
-      }
-      return statusMap[status]
-    }
-  },
+  
   data() {
     return {
       list: null,
       listLoading: true,
       total:0,
-      page:1
+      page:1,
+      base:base
     }
   },
   created() {
@@ -78,16 +81,16 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      roleList({page:this.page}).then(response => {
-        this.list = response.rolelist
+      productList({page:this.page}).then(response => {
+        this.list = response.productlist
         this.total=response.total
         this.listLoading = false
       })
     },
-    edit(role){
+    edit(product){
         this.$router.push({
-            path:"/role/editRole",
-            query:role
+            path:"/shop/editProduct",
+            query:product
         })
     },
     del(id){
@@ -98,22 +101,22 @@ export default {
         })
           .then(async()=>{
             this.listLoading=true
-            await delRole({id})
+            await delProduct({id})
             this.listLoading=false
             this.fetchData()
           })
     },
-    getPageRoles(page){
+    getPageProduct(page){
         this.page=page
         this.listLoading=true
-        roleList({page:page}).then(response=>{
-            this.list=response.rolelist
+        productList({page:page}).then(response=>{
+            this.list=response.productlist
             this.total=response.total
             this.listLoading=false
         })
     },
-    addRole(){
-        this.$router.push("/role/addRole")
+    add(){
+        this.$router.push("/shop/addProduct")
     }
   }
 }

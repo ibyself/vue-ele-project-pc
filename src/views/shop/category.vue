@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="addUser-wrap">
-        <el-button @click="addRole()" type="primary" icon="el-icon-edit">添加角色</el-button>
+        <el-button @click="add()" type="primary" icon="el-icon-edit">添加分类</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -16,20 +16,16 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="角色名称" align="center">
+      <el-table-column label="分类名称" align="center">
         <template slot-scope="scope">
-          {{ scope.row.desc }}
+          {{ scope.row.title }}
         </template>
       </el-table-column>
-      <el-table-column label="权限规则编号" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.rule_ids }}</span>
-        </template>
-      </el-table-column>
+     
       
       <el-table-column class-name="status-col" label="状态" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status==1?"正常":"禁用" }}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status=='1'?"正常":"禁用" }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="操作" width="200">
@@ -43,7 +39,7 @@
         <el-pagination
         background
         layout="prev, pager, next"
-        @current-change="getPageRoles"
+        @current-change="getPageCategory"
         :total="total">
         </el-pagination>
     </div>
@@ -51,7 +47,7 @@
 </template>
 
 <script>
-import { roleList ,delRole} from '@/api/admin'
+import { categoryList ,delCategory} from '@/api/shop'
 
 export default {
   filters: {
@@ -78,16 +74,16 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      roleList({page:this.page}).then(response => {
-        this.list = response.rolelist
+      categoryList({page:this.page}).then(response => {
+        this.list = response.categorylist
         this.total=response.total
         this.listLoading = false
       })
     },
-    edit(role){
+    edit(category){
         this.$router.push({
-            path:"/role/editRole",
-            query:role
+            path:"/shop/editCategory",
+            query:category
         })
     },
     del(id){
@@ -98,22 +94,22 @@ export default {
         })
           .then(async()=>{
             this.listLoading=true
-            await delRole({id})
+            await delCategory({id})
             this.listLoading=false
             this.fetchData()
           })
     },
-    getPageRoles(page){
+    getPageCategory(page){
         this.page=page
         this.listLoading=true
-        roleList({page:page}).then(response=>{
-            this.list=response.rolelist
+        categoryList({page:page}).then(response=>{
+            this.list=response.categorylist
             this.total=response.total
             this.listLoading=false
         })
     },
-    addRole(){
-        this.$router.push("/role/addRole")
+    add(){
+        this.$router.push("/shop/addCategory")
     }
   }
 }

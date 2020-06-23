@@ -144,6 +144,54 @@ export const constantRoutes = [
     hidden:true
   },
   {
+    path:'/shop',
+    component:Layout,
+    name:'shop',
+    meta:{title:'商品管理',icon:'user'},
+    children:[
+      {
+        path: 'category',
+        name: 'category',
+        component: () => import('@/views/shop/category'),
+        meta: { title: '商品分类', icon: 'table' }
+      },
+      {
+        path:'addcategory',
+        name:'addcategory',
+        component:()=>import('@/views/shop/addcategory'),
+        meta:{title:'添加分类',icon:"user"},
+        hidden:true
+      },
+      {
+        path:'editcategory',
+        name:'editcategory',
+        component:()=>import('@/views/shop/editcategory'),
+        meta:{title:'编辑分类',icon:"user"},
+        hidden:true
+      },
+      {
+        path: 'product',
+        name: 'product',
+        component: () => import('@/views/shop/product'),
+        meta: { title: '商品管理', icon: 'table' }
+      },
+      {
+        path:'addProduct',
+        name:'addProduct',
+        component:()=>import('@/views/shop/addProduct'),
+        meta:{title:'添加商品',icon:"user"},
+        hidden:true
+      },
+      {
+        path:'editProduct',
+        name:'editProduct',
+        component:()=>import('@/views/shop/editProduct'),
+        meta:{title:'编辑商品',icon:"user"},
+        hidden:true
+      }
+    ]
+  },
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
