@@ -19,6 +19,7 @@
       </el-form-item>
       <el-form-item label="上传图片">
         <el-upload
+        name="uploadFile"
         class="upload-demo"
         :file-list="fileList"
         drag
@@ -95,6 +96,7 @@
 <script>
 import {addProduct, categoryList} from '@/api/shop'
 import Tinymce from '@/components/Tinymce'
+let base=process.env.VUE_APP_BASE_API
 export default {
   components:{Tinymce},
   data() {
