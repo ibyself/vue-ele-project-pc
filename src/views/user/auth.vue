@@ -102,6 +102,9 @@ export default {
             this.listLoading=false
             this.fetchData()
           })
+          .catch(()=>{
+            return new Promise(()=>{})
+          })
     },
     getPageRules(page){
         this.page=page

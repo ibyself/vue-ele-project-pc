@@ -106,6 +106,9 @@ export default {
             this.listLoading=false
             this.fetchData()
           })
+          .catch(()=>{
+            return new Promise(()=>{})
+          })
     },
     getPageUsers(page){
         this.page=page

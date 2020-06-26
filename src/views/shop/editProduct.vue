@@ -25,6 +25,7 @@
         drag
         action="/api/assets/upload/upImgs"
         :on-success="uploadSuccess"
+        :on-remove="removeSuccess"
         list-type="picture"
         multiple>
         <i class="el-icon-upload"></i>
@@ -144,9 +145,19 @@ export default {
         console.log(this.skuObj)
         this.form.sku=JSON.stringify(this.skuObj)
     },
-    uploadSuccess(res){
-        this.fileList.push({name:res.data.originName,filename:res.data.filename,url:base+'/static/upload/'+res.data.filename})
-        this.form.imgs=JSON.stringify(this.fileList)
+    uploadSuccess(res){ 
+      this.fileList.push({name:res.data.originName,filename:res.data.filename,url:base+'/static/upload/'+res.data.filename})
+      this.form.imgs=JSON.stringify(this.fileList)
+    },
+    removeSuccess(res){
+      let delIndex=0
+      this.fileList.forEach((item,index)=>{
+        if(item.filename==res.filename){
+          delIndex=index
+        }
+      })
+      this.fileList.splice(delIndex,1)
+      this.form.imgs=JSON.stringify(this.fileList)
     }
   },
   computed:{
@@ -164,8 +175,8 @@ export default {
       let res=await categoryList()
       this.clist=res.categorylist
       this.form=this.$route.query
-      this.skuObj=this.form.sku && JSON.parse(this.form.sku)
-      this.fileList=JSON.parse(this.form.imgs)
+      this.skuObj=this.form.sku?JSON.parse(this.form.sku):{}
+      this.fileList=this.form.imgs?JSON.parse(this.form.imgs):[]
   }
 
 }

@@ -25,6 +25,7 @@
         drag
         action="/api/assets/upload/upImgs"
         :on-success="uploadSuccess"
+        :on-remove="removeSuccess"
         list-type="picture"
         multiple>
         <i class="el-icon-upload"></i>
@@ -123,6 +124,7 @@ export default {
   methods: {
     onSubmit() {
       this.$message('submit!')
+      console.log(this.form)
       addProduct(this.form)
       this.$router.push('/shop/product')
     },
@@ -147,6 +149,16 @@ export default {
     uploadSuccess(res){
         this.fileList.push({name:res.data.originName,filename:res.data.filename,url:base+'/static/upload/'+res.data.filename})
         this.form.imgs=JSON.stringify(this.fileList)
+    },
+    removeSuccess(res){
+      let delIndex=0
+      this.fileList.forEach((item,index)=>{
+        if(item.filename==res.filename){
+          delIndex=index
+        }
+      })
+      this.fileList.splice(delIndex,1)
+      this.form.imgs=JSON.stringify(this.fileList)
     }
   },
   computed:{

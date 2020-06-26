@@ -98,6 +98,9 @@ export default {
             this.listLoading=false
             this.fetchData()
           })
+          .catch(()=>{
+            return new Promise(()=>{})
+          })
     },
     getPageCategory(page){
         this.page=page

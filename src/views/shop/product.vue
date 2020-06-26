@@ -83,6 +83,7 @@ export default {
       this.listLoading = true
       productList({page:this.page}).then(response => {
         this.list = response.productlist
+        console.log(response.productlist)
         this.total=response.total
         this.listLoading = false
       })
@@ -104,6 +105,9 @@ export default {
             await delProduct({id})
             this.listLoading=false
             this.fetchData()
+          })
+          .catch(()=>{
+            return new Promise(()=>{})
           })
     },
     getPageProduct(page){
